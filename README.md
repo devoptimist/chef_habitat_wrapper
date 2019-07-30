@@ -1,4 +1,13 @@
 # chef_habitat_wrapper
 
-TODO: Enter the cookbook description here.
+## Overview
+Use this cookbook to install, configure and start a habitat supervisor, install habitat packages
+and load, configure and start habitat services
 
+## Usage
+Include this cookbook's default recipe in your run list.
+
+
+## Attributes
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|----------|
