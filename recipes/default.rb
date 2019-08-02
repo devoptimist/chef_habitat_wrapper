@@ -24,13 +24,14 @@ if !node['chef_habitat_wrapper']['service_list'].empty? || node['chef_habitat_wr
     peer param(node['chef_habitat_wrapper']['peer'])
     ring param(node['chef_habitat_wrapper']['ring'])
     hab_channel node['chef_habitat_wrapper']['sup_channel']
+    auto_update node['chef_habitat_wrapper']['auto_update']
     license node['chef_habitat_wrapper']['accept_license'].to_s == 'true' ? 'accept' : 'decline'
     auth_token param(node['chef_habitat_wrapper']['sup_auth_token'])
     action node['chef_habitat_wrapper']['sup_action'].to_sym
   end
 end
 
-node['chef_habitat_wrapper']['packages'].each do |pkg, opt={}|
+node['chef_habitat_wrapper']['packages'].each do |pkg, opt|
   hab_package pkg do
     extend ChefHabitatWrapper::UtilsHelpers
     bldr_url param(opt['bldr_url'], node['chef_habitat_wrapper']['bldr_url'])
@@ -40,10 +41,11 @@ node['chef_habitat_wrapper']['packages'].each do |pkg, opt={}|
     auth_token param(opt['auth_token']) 
     options param(opt['options'])
     version param(opt['version'])
+    action param(opt['action'], node['chef_habitat_wrapper']['pkg_action'])
   end
 end
 
-node['chef_habitat_wrapper']['service_list'].each do |service, opt|
+node['chef_habitat_wrapper']['services'].each do |service, opt|
   if opt['user_toml_config']
     this_service = opt['group'].nil? ? service.split("/")[1] : "#{service.split("/")[1]}.#{opt['group']}"
     hab_user_toml this_service do
@@ -54,7 +56,7 @@ node['chef_habitat_wrapper']['service_list'].each do |service, opt|
   end
 end
 
-node['chef_habitat_wrapper']['service_list'].each do |service, opt|
+node['chef_habitat_wrapper']['services'].each do |service, opt|
   hab_service service do
     extend ChefHabitatWrapper::UtilsHelpers
     strategy param(opt['strategy'])
@@ -70,7 +72,7 @@ node['chef_habitat_wrapper']['service_list'].each do |service, opt|
   end
 end
 
-node['chef_habitat_wrapper']['service_list'].each do |service, opt|
+node['chef_habitat_wrapper']['services'].each do |service, opt|
   this_service = opt['group'].nil? ? "#{service.split("/")[1]}.default" : "#{service.split("/")[1]}.#{opt['group']}"
   hab_config this_service do
     extend ChefHabitatWrapper::UtilsHelpers

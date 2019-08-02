@@ -14,12 +14,12 @@ default['chef_habitat_wrapper']['install_action'] = 'install'
 default['chef_habitat_wrapper']['permanent_peer'] = false
 default['chef_habitat_wrapper']['listen_ctl'] = nil
 default['chef_habitat_wrapper']['listen_gossip'] = nil
-default['chef_habitat_wrapper']['listent_http'] = nil
+default['chef_habitat_wrapper']['listen_http'] = nil
 default['chef_habitat_wrapper']['org'] = 'default'
 default['chef_habitat_wrapper']['peer'] = nil
 default['chef_habitat_wrapper']['ring'] = nil
 default['chef_habitat_wrapper']['sup_channel'] = 'stable'
-default['chef_habitat_wrapper']['auto_update'] = nil
+default['chef_habitat_wrapper']['auto_update'] = false
 default['chef_habitat_wrapper']['sup_auth_token'] = nil
 default['chef_habitat_wrapper']['sup_action'] = 'run'
 
@@ -33,11 +33,10 @@ default['chef_habitat_wrapper']['pkg_action'] = 'install'
 default['chef_habitat_wrapper']['user_toml_action'] = 'create'
 
 # hab_service settings
-default['chef_habitat_wrapper']['service_list'] = {}
+default['chef_habitat_wrapper']['services'] = {}
 default['chef_habitat_wrapper']['service_channel'] = 'stable'
 default['chef_habitat_wrapper']['binding_mode'] = 'strict'
 default['chef_habitat_wrapper']['service_action'] = 'load'
 
 # hab_config settings
-default['chef_habitat_wrapper']['config'] = {}
 default['chef_habitat_wrapper']['config_action'] = 'apply'
