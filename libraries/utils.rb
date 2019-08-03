@@ -5,7 +5,7 @@ module ChefHabitatWrapper
     end
     def reduce_ip(a,node)
       if a.nil? || a.empty?
-        nil
+        ""
       else
         h_ip = [
           node['ipaddress'],
