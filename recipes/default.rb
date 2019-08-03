@@ -21,7 +21,7 @@ if !node['chef_habitat_wrapper']['services'].empty? || node['chef_habitat_wrappe
     listen_gossip param(node['chef_habitat_wrapper']['listen_gossip'])
     listen_http param(node['chef_habitat_wrapper']['listen_http'])
     org node['chef_habitat_wrapper']['org']
-    peer param(node['chef_habitat_wrapper']['peer'].delete(node['ipaddress']))
+    peer param(node['chef_habitat_wrapper']['peer'].map { |i| i if != node['ipaddress'] })
     ring param(node['chef_habitat_wrapper']['ring'])
     hab_channel node['chef_habitat_wrapper']['sup_channel']
     auto_update node['chef_habitat_wrapper']['auto_update']
