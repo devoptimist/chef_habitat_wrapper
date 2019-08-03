@@ -12,7 +12,7 @@ hab_install 'install_habitat' do
   action node['chef_habitat_wrapper']['install_action'].to_sym
 end
 
-if !node['chef_habitat_wrapper']['service_list'].empty? || node['chef_habitat_wrapper']['sup_action'] == 'run'
+if !node['chef_habitat_wrapper']['services'].empty? || node['chef_habitat_wrapper']['sup_action'] == 'run'
   hab_sup 'default' do
     extend ChefHabitatWrapper::UtilsHelpers
     bldr_url node['chef_habitat_wrapper']['bldr_url']
