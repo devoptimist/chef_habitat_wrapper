@@ -43,4 +43,7 @@ node.default['chef_habitat_wrapper']['service_list'] = if node['platform_family'
                                                            }
                                                          }
                                                        end
+
+node.default['chef_habitat_wrapper']['peer'] = []
+
 include_recipe 'chef_habitat_wrapper::default'

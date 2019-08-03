@@ -11,6 +11,7 @@ default_source :supermarket
 
 # run_list: chef-client will run these recipes in the order specified.
 run_list 'chef_habitat_wrapper::default'
+named_run_list :integration_test_run_list, 'chef_habitat_wrapper::test'
 
 # Specify a custom source for a single cookbook:
 cookbook 'chef_habitat_wrapper', path: '.'
