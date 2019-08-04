@@ -3,6 +3,7 @@ $pkg_origin="devoptimist"
 $pkg_version="0.83.0"
 $pkg_upstream_url="http://chef.io"
 $pkg_build_deps=@("core/chef-dk")
+$pkg_scaffolding="chef/scaffolding-chef-infra"
 $pkg_deps=@(
   "stuartpreston/chef-client" # https://github.com/habitat-sh/habitat/issues/6671
 )

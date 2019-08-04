@@ -4,7 +4,6 @@
 #
 # Copyright:: 2019, The Authors, All Rights Reserved.
 
-
 hab_install 'install_habitat' do
   license node['chef_habitat_wrapper']['accept_license'].to_s == 'true' ? 'accept' : 'decline'
   install_url node['chef_habitat_wrapper']['install_url']
@@ -21,7 +20,7 @@ if !node['chef_habitat_wrapper']['services'].empty? || node['chef_habitat_wrappe
     listen_gossip param(node['chef_habitat_wrapper']['listen_gossip'])
     listen_http param(node['chef_habitat_wrapper']['listen_http'])
     org node['chef_habitat_wrapper']['org']
-    peer param(reduce_ip(node['chef_habitat_wrapper']['peer'], node))
+    peer node['chef_habitat_wrapper']['peer']
     ring param(node['chef_habitat_wrapper']['ring'])
     hab_channel node['chef_habitat_wrapper']['sup_channel']
     auto_update node['chef_habitat_wrapper']['auto_update']
