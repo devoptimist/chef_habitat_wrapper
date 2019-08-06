@@ -51,7 +51,7 @@ ruby_block 'wait_for_supervisor_to_start' do
     addr = node['chef_habitat_wrapper']['listen_http'].nil? ?
       'http://127.0.0.1:9631' : node['chef_habitat_wrapper']['listen_http']
 
-    until count == 6 do
+    until count == 5 do
       begin
         Chef::Log.debug "Trying to get supervisor census data from #{addr}. attempt #{count}"
         Chef::HTTP.new(addr).get('/census').inspect
@@ -82,7 +82,8 @@ end
 
 node['chef_habitat_wrapper']['services'].each do |service, opt|
   if opt['user_toml_config']
-    hab_user_toml service do
+    this_service = service.split("/")[1]
+    hab_user_toml this_service do
       extend ChefHabitatWrapper::UtilsHelpers
       config(param(opt['user_toml_config'], {}))
       action param(opt['user_toml_action'], node['chef_habitat_wrapper']['user_toml_action']).to_sym
