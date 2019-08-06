@@ -4,6 +4,19 @@
 #
 # Copyright:: 2019, The Authors, All Rights Reserved.
 
+# the hab_install resource is not 100% idempotent
+# if habitat is installed at the right version
+# but the hab user is not created, then the create
+# user part of the resource is never run
+if node['chef_habitat_wrapper']['create_user']
+  group 'hab'
+
+  user 'hab' do
+    gid 'hab'
+    system true
+  end
+end
+
 hab_install 'install_habitat' do
   license node['chef_habitat_wrapper']['accept_license'].to_s == 'true' ? 'accept' : 'decline'
   install_url node['chef_habitat_wrapper']['install_url']
@@ -20,13 +33,36 @@ if !node['chef_habitat_wrapper']['services'].empty? || node['chef_habitat_wrappe
     listen_gossip param(node['chef_habitat_wrapper']['listen_gossip'])
     listen_http param(node['chef_habitat_wrapper']['listen_http'])
     org node['chef_habitat_wrapper']['org']
-    peer node['chef_habitat_wrapper']['peer']
+    peer reduce_ip(node['chef_habitat_wrapper']['peer'], node)
     ring param(node['chef_habitat_wrapper']['ring'])
     hab_channel node['chef_habitat_wrapper']['sup_channel']
     auto_update node['chef_habitat_wrapper']['auto_update']
     license node['chef_habitat_wrapper']['accept_license'].to_s == 'true' ? 'accept' : 'decline'
     auth_token param(node['chef_habitat_wrapper']['sup_auth_token'])
     action node['chef_habitat_wrapper']['sup_action'].to_sym
+  end
+end
+
+ruby_block 'wait_for_supervisor_to_start' do
+  block do
+    http_retry_count = Chef::Config['http_retry_count']
+    Chef::Config['http_retry_count'] = 0
+    count = 0
+    addr = node['chef_habitat_wrapper']['listen_http'].nil? ?
+      'http://127.0.0.1:9631' : node['chef_habitat_wrapper']['listen_http']
+
+    until count == 6 do
+      begin
+        Chef::Log.debug "Trying to get supervisor census data from #{addr}. attempt #{count}"
+        Chef::HTTP.new(addr).get('/census').inspect
+      break
+        rescue
+        count += 1
+        sleep 10
+        next
+      end
+      Chef::Config['http_retry_count'] = http_retry_count
+    end
   end
 end
 
@@ -46,8 +82,7 @@ end
 
 node['chef_habitat_wrapper']['services'].each do |service, opt|
   if opt['user_toml_config']
-    this_service = opt['group'].nil? ? service.split("/")[1] : "#{service.split("/")[1]}.#{opt['group']}"
-    hab_user_toml this_service do
+    hab_user_toml service do
       extend ChefHabitatWrapper::UtilsHelpers
       config(param(opt['user_toml_config'], {}))
       action param(opt['user_toml_action'], node['chef_habitat_wrapper']['user_toml_action']).to_sym

@@ -7,7 +7,7 @@ node.default['chef_habitat_wrapper']['packages'] = if node['platform_family'] ==
                                              }
                                            end
 
-node.default['chef_habitat_wrapper']['service_list'] = if node['platform_family'] == 'windows'
+node.default['chef_habitat_wrapper']['services'] = if node['platform_family'] == 'windows'
                                                          {}
                                                        else
                                                          {

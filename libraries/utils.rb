@@ -9,7 +9,7 @@ module ChefHabitatWrapper
       else
         h_ip = [
           node['ipaddress'],
-          node['cloud']['public_ipv4_addrs'].first
+          node['cloud']['public_ipv4']
         ]
         a - h_ip
       end
