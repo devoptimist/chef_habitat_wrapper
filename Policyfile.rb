@@ -15,4 +15,4 @@ named_run_list :integration_test_run_list, 'chef_habitat_wrapper::test'
 
 # Specify a custom source for a single cookbook:
 cookbook 'chef_habitat_wrapper', path: '.'
-cookbook 'habitat', github: 'chef-cookbooks/habitat', tag: 'v0.83.0'
+cookbook 'habitat', github: 'chef-cookbooks/habitat', tag: 'v1.5.0'
