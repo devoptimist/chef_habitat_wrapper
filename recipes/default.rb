@@ -97,7 +97,7 @@ node['chef_habitat_wrapper']['services'].each do |service, opt|
     strategy param(opt['strategy'])
     topology param(opt['topology'])
     bldr_url param(opt['bldr_url'], node['chef_habitat_wrapper']['bldr_url'])
-    channel param(opt['channel'])
+    channel param(opt['channel'], node['chef_habitat_wrapper']['service_channel'])
     bind param(opt['bind'])
     binding_mode param(opt['binding_mode'], node['chef_habitat_wrapper']['binding_mode'])
     service_group param(opt['group'])
