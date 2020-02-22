@@ -1,0 +1,51 @@
+---
+driver:
+  name: gce
+  project: simonfisher-183117
+  zone: europe-west1-c
+  email: sbrown@chef.io
+  tags:
+    - devteam
+    - test-kitchen
+  service_account_scopes:
+    - devstorage.read_write
+    - userinfo.email
+  metadata:
+    ssh-keys: <%= "chef" + ':' + IO.binread('/home/steveb/.ssh/eu_west_1.pub').rstrip! %>
+    
+transport:
+  username: chef
+  ssh_key: /home/steveb/.ssh/eu_west_1
+
+provisioner:
+  name: shell
+  always_update_cookbooks: true
+  data_path: results
+
+verifier:
+  name: inspec
+
+platforms:
+  - name: centos-7
+    driver:
+      image_project: centos-cloud
+      image_name: centos-7-v20200205
+  - name: windows-2019
+    driver:
+      image_project: windows-cloud
+      image_name: windows-server-2019-dc-v20200211 
+      machine_type: n1-standard-2
+      disk_size: 50
+      metadata:
+        application: windows
+        release: a
+        version: cloud
+
+suites:
+  - name: default
+    provisioner:
+      arguments: ["<%= ENV['HAB_ORIGIN'] %>", "chef_habitat_wrapper"]
+    verifier:
+      inspec_tests:
+        - test/integration/default
+    attributes:
