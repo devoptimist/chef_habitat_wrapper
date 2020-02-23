@@ -34,6 +34,8 @@ default['chef_habitat_wrapper']['user_toml_action'] = 'create'
 
 # hab_service settings
 default['chef_habitat_wrapper']['services'] = {}
+default['chef_habitat_wrapper']['service_strategy'] = 'none'
+default['chef_habitat_wrapper']['service_topology'] = 'standalone'
 default['chef_habitat_wrapper']['service_channel'] = 'stable'
 default['chef_habitat_wrapper']['binding_mode'] = 'strict'
 default['chef_habitat_wrapper']['service_action'] = 'load'

@@ -94,11 +94,11 @@ end
 node['chef_habitat_wrapper']['services'].each do |service, opt|
   hab_service service do
     extend ChefHabitatWrapper::UtilsHelpers
-    strategy param(opt['strategy'])
-    topology param(opt['topology'])
+    strategy param(opt['strategy'], node['chef_habitat_wrapper']['service_strategy'])
+    topology param(opt['topology'], node['chef_habitat_wrapper']['service_topology'])
     bldr_url param(opt['bldr_url'], node['chef_habitat_wrapper']['bldr_url'])
     channel param(opt['channel'], node['chef_habitat_wrapper']['service_channel'])
-    bind param(opt['bind'])
+    bind param(opt['bind'], [])
     binding_mode param(opt['binding_mode'], node['chef_habitat_wrapper']['binding_mode'])
     service_group param(opt['group'])
     remote_sup param(opt['remote_sup'], node['chef_habitat_wrapper']['remote_sup'])

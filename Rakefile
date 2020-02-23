@@ -14,6 +14,17 @@ task :build_test_stable do
   Rake::Task['hab:us'].execute
 end
 
+desc 'build artifact and upload to unstable channel'
+task :build_unstable do
+  Rake::Task['hab:hb'].execute
+  Rake::Task['hab:uu'].execute
+end
+
+desc 'build artifact andupload to stable channel'
+task :build_stable do
+  Rake::Task['hab:hb'].execute
+  Rake::Task['hab:us'].execute
+end
 desc 'just lint'
 task :lint do
   Rake::Task['lint:cs'].execute
