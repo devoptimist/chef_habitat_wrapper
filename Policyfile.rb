@@ -15,4 +15,5 @@ named_run_list :integration_test_run_list, 'chef_habitat_wrapper::test'
 
 # Specify a custom source for a single cookbook:
 cookbook 'chef_habitat_wrapper', path: '.'
-cookbook 'habitat', github: 'chef-cookbooks/habitat', tag: 'v1.5.2'
+#cookbook 'habitat', github: 'chef-cookbooks/habitat', tag: 'v1.5.2'
+cookbook 'habitat', github: 'srb3/habitat', branch: 'automate_builder_url_fix'

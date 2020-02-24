@@ -25,6 +25,21 @@ task :build_stable do
   Rake::Task['hab:hb'].execute
   Rake::Task['hab:us'].execute
 end
+
+desc 'build artifact run in kitchen upload to unstable channel'
+task :build_kitchen_unstable do
+  Rake::Task['hab:hb'].execute
+  Rake::Task['kitchen:kt'].execute
+  Rake::Task['hab:uu'].execute
+end
+
+desc 'build artifact run in kitchen upload to stable channel'
+task :build_kitchen_stable do
+  Rake::Task['hab:hb'].execute
+  Rake::Task['kitchen:kt'].execute
+  Rake::Task['hab:us'].execute
+end
+
 desc 'just lint'
 task :lint do
   Rake::Task['lint:cs'].execute
